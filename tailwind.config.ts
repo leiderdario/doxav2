@@ -53,21 +53,24 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Custom color palette for ThoughtChatter
-				"dark-blue": "#1E3A8A",
-				"vivid-blue": "#2563EB",
-				"pale-blue": "#E0F2FE",
-				"powder-blue": "#BFDBFE",
-				"mountain": "#556B2F",
-				"silver": "#C0C0C0",
-				"light-gray": "#F3F4F6",
-				"dark-gray": "#4B5563",
-				"medium-gray": "#9CA3AF",
-				"brown": "#A27B5C",
-				"powder-pink": "#FBE4E8",
-				"dark-green": "#1F2937",
-				// Additional shades
-				"blue-gray": "#64748B",
+				// Updated custom color palette with softer colors
+				"dark-blue": "#5C7AEA",  // Softer dark blue
+				"vivid-blue": "#809BCE", // Softer vivid blue
+				"pale-blue": "#E0F2FE",  // Kept as is - already soft
+				"powder-blue": "#D6E2FF", // Softer powder blue
+				"mountain": "#8DA787",    // Softer mountain green
+				"silver": "#D1D5DB",      // Softer silver
+				"light-gray": "#F8FAFC",  // Lighter gray
+				"dark-gray": "#64748B",   // Softer dark gray
+				"medium-gray": "#94A3B8", // Softer medium gray
+				"brown": "#B79B8C",       // Softer brown
+				"powder-pink": "#FBE4E8", // Kept as is - already soft
+				"dark-green": "#5B7F64",  // Softer dark green
+				// Additional soft shades
+				"blue-gray": "#A9B8D0",   // Softer blue-gray
+				"soft-green": "#F2FCE2",  // New soft green
+				"soft-yellow": "#FEF7CD", // New soft yellow
+				"soft-peach": "#FDE1D3",  // New soft peach
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
