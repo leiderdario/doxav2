@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,21 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Custom color palette for ThoughtChatter
+				"dark-blue": "#1E3A8A",
+				"vivid-blue": "#2563EB",
+				"pale-blue": "#E0F2FE",
+				"powder-blue": "#BFDBFE",
+				"mountain": "#556B2F",
+				"silver": "#C0C0C0",
+				"light-gray": "#F3F4F6",
+				"dark-gray": "#4B5563",
+				"medium-gray": "#9CA3AF",
+				"brown": "#A27B5C",
+				"powder-pink": "#FBE4E8",
+				"dark-green": "#1F2937",
+				// Additional shades
+				"blue-gray": "#64748B",
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +100,16 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'fade-in': {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out forwards'
 			}
 		}
 	},
