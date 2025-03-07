@@ -47,7 +47,7 @@ const Register = () => {
     setTimeout(() => {
       console.log(values);
       setIsLoading(false);
-      toast.success("Registration successful! Welcome to ThoughtChatter!");
+      toast.success("Registration successful! Welcome to Doxa!");
       navigate("/");
     }, 1000);
   };
@@ -58,7 +58,7 @@ const Register = () => {
         <div className="text-center mb-6">
           <div className="inline-flex items-center">
             <ThoughtChatLogo className="h-8 w-8 mr-2" />
-            <span className="font-bold text-2xl text-dark-blue">ThoughtChatter</span>
+            <span className="font-bold text-2xl text-dark-blue">Doxa</span>
           </div>
           <p className="text-medium-gray mt-2">Join our community of thinkers</p>
         </div>

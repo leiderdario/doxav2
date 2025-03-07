@@ -32,7 +32,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         <Sidebar className="border-r border-border">
           <div className="p-4 flex justify-center items-center">
             <ThoughtChatLogo className="h-8 w-8 mr-2" />
-            <span className="font-bold text-xl text-dark-blue">ThoughtChatter</span>
+            <span className="font-bold text-xl text-dark-blue">Doxa</span>
           </div>
           <SidebarContent>
             <SidebarGroup>
@@ -191,7 +191,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
           </main>
           
           <footer className="border-t border-border p-4 text-center text-medium-gray text-sm">
-            © 2023 ThoughtChatter. Share your thoughts with the world.
+            © 2023 Doxa. Share your thoughts with the world.
           </footer>
         </div>
       </div>
