@@ -19,6 +19,17 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'playfair': ['"Playfair Display"', 'serif'],
+				'sans': ['"Open Sans"', 'sans-serif'],
+			},
+			lineHeight: {
+				'relaxed': '1.75',
+				'loose': '2',
+			},
+			spacing: {
+				'18': '4.5rem',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

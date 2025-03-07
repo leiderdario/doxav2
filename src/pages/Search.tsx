@@ -52,71 +52,73 @@ const Search = () => {
 
   return (
     <MainLayout>
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">Search</h1>
-          <form onSubmit={handleSearch} className="flex gap-2">
-            <div className="relative flex-1">
-              <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-medium-gray" size={18} />
-              <Input
-                type="search"
-                placeholder="Search for thoughts, topics, or people..."
-                className="pl-10"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-            </div>
-            <Button type="submit">Search</Button>
-            <Button variant="outline" type="button">
-              <Filter className="h-4 w-4 mr-2" />
-              Filters
-            </Button>
-          </form>
-        </div>
-
-        {query && (
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">
-              {isSearching
-                ? "Searching..."
-                : `Found ${results.length} results for "${query}"`}
-            </h2>
-          </div>
-        )}
-
-        {isSearching ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-pulse text-medium-gray">Searching...</div>
-          </div>
-        ) : (
-          <>
-            {results.length > 0 ? (
-              <div className="space-y-6">
-                {results.map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
+      <div className="content-container">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-10">
+            <h1 className="heading-lg mb-6">Search</h1>
+            <form onSubmit={handleSearch} className="flex gap-3">
+              <div className="relative flex-1">
+                <SearchIcon className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-medium-gray" size={18} />
+                <Input
+                  type="search"
+                  placeholder="Search for thoughts, topics, or people..."
+                  className="pl-11 py-2.5 text-base border-blue-gray/20"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                />
               </div>
-            ) : (
-              query && (
-                <div className="text-center py-10">
-                  <h3 className="text-xl font-semibold mb-2">No results found</h3>
-                  <p className="text-medium-gray">
-                    Try different keywords or check your spelling
-                  </p>
-                </div>
-              )
-            )}
-          </>
-        )}
-
-        {!query && (
-          <div className="text-center py-10">
-            <h3 className="text-xl font-semibold mb-2">Search for something</h3>
-            <p className="text-medium-gray">
-              Enter keywords above to find thoughts, topics, or people
-            </p>
+              <Button type="submit" className="px-5 py-2.5">Search</Button>
+              <Button variant="outline" type="button" className="px-5">
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+              </Button>
+            </form>
           </div>
-        )}
+
+          {query && (
+            <div className="mb-8">
+              <h2 className="heading-md mb-4">
+                {isSearching
+                  ? "Searching..."
+                  : `Found ${results.length} results for "${query}"`}
+              </h2>
+            </div>
+          )}
+
+          {isSearching ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-pulse text-medium-gray">Searching...</div>
+            </div>
+          ) : (
+            <>
+              {results.length > 0 ? (
+                <div className="space-y-6">
+                  {results.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))}
+                </div>
+              ) : (
+                query && (
+                  <div className="text-center py-12 bg-pale-blue/50 rounded-lg">
+                    <h3 className="heading-sm mb-3">No results found</h3>
+                    <p className="text-medium-gray leading-relaxed">
+                      Try different keywords or check your spelling
+                    </p>
+                  </div>
+                )
+              )}
+            </>
+          )}
+
+          {!query && (
+            <div className="text-center py-16 bg-pale-blue/50 rounded-lg">
+              <h3 className="heading-sm mb-3">Search for something</h3>
+              <p className="text-medium-gray leading-relaxed max-w-md mx-auto">
+                Enter keywords above to find thoughts, topics, or people
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </MainLayout>
   );
