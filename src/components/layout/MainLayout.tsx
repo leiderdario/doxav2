@@ -5,10 +5,11 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupCon
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, HomeIcon, BookmarkIcon, MessageCircleIcon, TagIcon, TrendingUpIcon, 
-  UserCircleIcon, LogInIcon, LogOutIcon, PlusCircleIcon } from "lucide-react";
+  UserCircleIcon, LogInIcon, LogOutIcon, PlusCircleIcon, Moon, Sun } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThoughtChatLogo from "../common/ThoughtChatLogo";
+import { useTheme } from "@/context/ThemeContext";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { theme, toggleTheme } = useTheme();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +107,30 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
               </SidebarGroup>
             )}
             
+            {/* Theme Toggle Button */}
+            <SidebarGroup>
+              <SidebarGroupLabel>Appearance</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton onClick={toggleTheme} className="flex items-center">
+                      {theme === "dark" ? (
+                        <>
+                          <Sun className="mr-2 h-5 w-5 text-vivid-blue" />
+                          <span>Light Mode</span>
+                        </>
+                      ) : (
+                        <>
+                          <Moon className="mr-2 h-5 w-5 text-vivid-blue" />
+                          <span>Dark Mode</span>
+                        </>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            
             <div className="p-4">
               {isLoggedIn ? (
                 <Button 
@@ -128,7 +154,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         </Sidebar>
         
         <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-          <header className="border-b border-border py-4 px-6 bg-white">
+          <header className="border-b border-border py-4 px-6 bg-white dark:bg-dark-blue">
             <div className="flex items-center justify-between">
               <div className="flex items-center md:hidden">
                 <SidebarTrigger />
@@ -139,7 +165,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                 <Input 
                   type="search"
                   placeholder="Search thoughts..."
-                  className="pl-10 bg-light-gray"
+                  className="pl-10 bg-light-gray dark:bg-gray-800 dark:text-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -156,7 +182,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                       variant="ghost" 
                       size="sm" 
                       onClick={() => setIsLoggedIn(false)}
-                      className="text-dark-gray"
+                      className="text-dark-gray dark:text-gray-300"
                     >
                       <LogOutIcon className="h-4 w-4 mr-1" />
                       Logout
@@ -168,7 +194,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                       variant="ghost" 
                       size="sm" 
                       onClick={() => navigate("/register")}
-                      className="text-dark-gray"
+                      className="text-dark-gray dark:text-gray-300"
                     >
                       Register
                     </Button>
@@ -186,11 +212,11 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
             </div>
           </header>
           
-          <main className="flex-1 overflow-auto p-6">
+          <main className="flex-1 overflow-auto p-6 bg-background">
             {children}
           </main>
           
-          <footer className="border-t border-border p-4 text-center text-medium-gray text-sm">
+          <footer className="border-t border-border p-4 text-center text-medium-gray text-sm dark:bg-dark-blue dark:text-gray-400">
             © 2023 Doxa. Share your thoughts with the world.
           </footer>
         </div>
