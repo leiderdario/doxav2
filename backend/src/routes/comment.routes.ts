@@ -4,6 +4,7 @@ import { validateSchema } from '../middleware/validateSchema';
 import { createCommentSchema, updateCommentSchema } from '../schemas/comment.schema';
 import { requireAuth } from '../middleware/auth.middleware';
 
+
 const router = Router();
 
 // Rutas públicas
