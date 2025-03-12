@@ -1,12 +1,14 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { HeartIcon, BookmarkIcon, ShareIcon, AlertCircleIcon, MessageCircleIcon } from "lucide-react";
+import { HeartIcon, BookmarkIcon, AlertCircleIcon, MessageCircleIcon } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { getPostById, getCommentsForPost } from "@/data/mockData";
 import { Post, Comment } from "@/types/model";
 import MainLayout from "@/components/layout/MainLayout";
 import CommentCard from "@/components/post/CommentCard";
+import SharePostDialog from "@/components/post/SharePostDialog";
+import PostStatsSummary from "@/components/stats/PostStatsSummary";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +25,8 @@ const PostDetail = () => {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const [shareCount, setShareCount] = useState(0);
+  const [postViews, setPostViews] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -30,9 +34,20 @@ const PostDetail = () => {
       if (fetchedPost) {
         setPost(fetchedPost);
         setComments(getCommentsForPost(id));
+        
+        // Mock data for post views - would come from analytics in a real app
+        setPostViews(Math.floor(Math.random() * 1000) + 500);
       }
     }
   }, [id]);
+
+  useEffect(() => {
+    // Increment view count when post is loaded
+    if (post) {
+      // This would be an API call in a real app
+      console.log("Post viewed:", post.id);
+    }
+  }, [post]);
 
   const handleLike = () => {
     if (!post) return;
@@ -57,8 +72,8 @@ const PostDetail = () => {
   };
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard!");
+    // This would be handled by the SharePostDialog component now
+    setShareCount(shareCount + 1);
   };
 
   const handleReport = () => {
@@ -159,6 +174,17 @@ const PostDetail = () => {
     );
   }
 
+  // In a real app, this data would come from analytics
+  const mockActivityData = [
+    { date: "Mon", posts: 5, comments: 8, likes: 15 },
+    { date: "Tue", posts: 3, comments: 7, likes: 10 },
+    { date: "Wed", posts: 7, comments: 13, likes: 22 },
+    { date: "Thu", posts: 4, comments: 5, likes: 12 },
+    { date: "Fri", posts: 6, comments: 9, likes: 18 },
+    { date: "Sat", posts: 8, comments: 14, likes: 25 },
+    { date: "Sun", posts: 5, comments: 12, likes: 20 },
+  ];
+
   return (
     <MainLayout>
       <div className="max-w-4xl mx-auto">
@@ -227,14 +253,8 @@ const PostDetail = () => {
                   <span>Save</span>
                 </Button>
                 
-                <Button
-                  variant="ghost"
-                  className="flex items-center gap-1"
-                  onClick={handleShare}
-                >
-                  <ShareIcon className="h-5 w-5" />
-                  <span>Share</span>
-                </Button>
+                {/* Replace the Share button with SharePostDialog */}
+                <SharePostDialog postTitle={post.title} postId={post.id} />
                 
                 <Button
                   variant="ghost"
@@ -257,6 +277,16 @@ const PostDetail = () => {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Post Statistics */}
+        <div className="mb-8">
+          <PostStatsSummary
+            views={postViews}
+            likes={post.likes}
+            comments={post.comments}
+            shareCount={shareCount}
+          />
+        </div>
         
         {showCommentBox && (
           <div className="mb-8">

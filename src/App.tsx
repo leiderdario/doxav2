@@ -14,6 +14,7 @@ import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
 import Trending from "./pages/Trending";
 import Discussions from "./pages/Discussions";
+import Settings from "./pages/Settings";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/create" element={<CreatePost />} />
             <Route path="/trending" element={<Trending />} />
             <Route path="/discussions" element={<Discussions />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

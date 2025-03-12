@@ -5,7 +5,7 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarGroup, SidebarGroupCon
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, HomeIcon, BookmarkIcon, MessageCircleIcon, TagIcon, TrendingUpIcon, 
-  UserCircleIcon, LogInIcon, LogOutIcon, PlusCircleIcon, Moon, Sun } from "lucide-react";
+  UserCircleIcon, LogInIcon, LogOutIcon, PlusCircleIcon, Moon, Sun, Settings } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ThoughtChatLogo from "../common/ThoughtChatLogo";
@@ -107,11 +107,19 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
               </SidebarGroup>
             )}
             
-            {/* Theme Toggle Button */}
             <SidebarGroup>
-              <SidebarGroupLabel>Appearance</SidebarGroupLabel>
+              <SidebarGroupLabel>Settings</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/settings" className="flex items-center">
+                        <Settings className="mr-2 h-5 w-5 text-vivid-blue" />
+                        <span>Settings</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  
                   <SidebarMenuItem>
                     <SidebarMenuButton onClick={toggleTheme} className="flex items-center">
                       {theme === "dark" ? (
