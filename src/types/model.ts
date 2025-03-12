@@ -5,6 +5,9 @@ export interface User {
   email?: string;
   avatarUrl?: string;
   createdAt: Date;
+  avatar?: string;  // Adding avatar property
+  bio?: string;     // Adding bio property
+  joinedAt?: Date;  // Adding joinedAt property
 }
 
 export interface Post {
@@ -17,7 +20,8 @@ export interface Post {
   updatedAt?: Date;
   likes: number;
   comments: number;
-  tags: Tag[];
+  tags: string[];    // Changed from Tag[] to string[] to match usage
+  imageUrl?: string; // Adding imageUrl property
 }
 
 export interface Comment {
@@ -29,6 +33,8 @@ export interface Comment {
   createdAt: Date;
   updatedAt?: Date;
   likes: number;
+  parentId?: string;   // Adding parentId property
+  children?: Comment[]; // Adding children property
 }
 
 export interface Tag {

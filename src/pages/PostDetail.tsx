@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { HeartIcon, BookmarkIcon, ShareIcon, AlertCircleIcon } from "lucide-react";
+import { HeartIcon, BookmarkIcon, ShareIcon, AlertCircleIcon, MessageCircleIcon } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { getPostById, getCommentsForPost } from "@/data/mockData";
 import { Post, Comment } from "@/types/model";
@@ -22,6 +22,7 @@ const PostDetail = () => {
   const [newComment, setNewComment] = useState("");
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
+  const [showCommentBox, setShowCommentBox] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -65,12 +66,87 @@ const PostDetail = () => {
   };
 
   const handleAddComment = () => {
-    if (!newComment.trim()) return;
+    if (!newComment.trim() || !post) return;
     
-    // In a real app, you would send this to an API
-    console.log("Adding comment:", newComment);
+    // Create a new comment object
+    const newCommentObj: Comment = {
+      id: `temp-${Date.now()}`,
+      content: newComment,
+      author: {
+        id: "current-user",
+        username: "Current User",
+        createdAt: new Date(),
+        avatar: "/placeholder.svg"
+      },
+      authorId: "current-user",
+      postId: post.id,
+      createdAt: new Date(),
+      likes: 0
+    };
+    
+    // Add the new comment to the comments array
+    setComments([newCommentObj, ...comments]);
+    
+    // Update the post's comment count
+    setPost({
+      ...post,
+      comments: post.comments + 1
+    });
+    
     toast.success("Comment added!");
     setNewComment("");
+  };
+
+  const handleReply = (parentId: string, content: string) => {
+    if (!content.trim() || !post) return;
+    
+    // Find the parent comment
+    const findParentAndAddReply = (commentsArray: Comment[]): Comment[] => {
+      return commentsArray.map(comment => {
+        if (comment.id === parentId) {
+          // Create a new reply
+          const newReply: Comment = {
+            id: `reply-${Date.now()}`,
+            content: content,
+            author: {
+              id: "current-user",
+              username: "Current User",
+              createdAt: new Date(),
+              avatar: "/placeholder.svg"
+            },
+            authorId: "current-user",
+            postId: post.id,
+            parentId: parentId,
+            createdAt: new Date(),
+            likes: 0
+          };
+          
+          // Add the reply to the parent's children
+          return {
+            ...comment,
+            children: comment.children ? [...comment.children, newReply] : [newReply]
+          };
+        } else if (comment.children && comment.children.length > 0) {
+          // If the comment has children, search through them
+          return {
+            ...comment,
+            children: findParentAndAddReply(comment.children)
+          };
+        }
+        return comment;
+      });
+    };
+    
+    // Update the comments with the new reply
+    setComments(findParentAndAddReply(comments));
+    
+    // Update the post's comment count
+    setPost({
+      ...post,
+      comments: post.comments + 1
+    });
+    
+    toast.success("Reply added!");
   };
 
   if (!post) {
@@ -90,7 +166,7 @@ const PostDetail = () => {
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-4">
               <Avatar>
-                <AvatarImage src={post.author.avatar} alt={post.author.username} />
+                <AvatarImage src={post.author.avatar || post.author.avatarUrl} alt={post.author.username} />
                 <AvatarFallback className="bg-dark-blue text-white">
                   {post.author.username.slice(0, 2).toUpperCase()}
                 </AvatarFallback>
@@ -159,6 +235,15 @@ const PostDetail = () => {
                   <ShareIcon className="h-5 w-5" />
                   <span>Share</span>
                 </Button>
+                
+                <Button
+                  variant="ghost"
+                  className={`flex items-center gap-1 ${showCommentBox ? "text-vivid-blue" : ""}`}
+                  onClick={() => setShowCommentBox(!showCommentBox)}
+                >
+                  <MessageCircleIcon className="h-5 w-5" />
+                  <span>Comment</span>
+                </Button>
               </div>
               
               <Button
@@ -173,32 +258,43 @@ const PostDetail = () => {
           </CardContent>
         </Card>
         
-        <div className="mb-8">
-          <h2 className="text-xl font-bold mb-4">Comments ({comments.length})</h2>
-          <Card>
-            <CardContent className="p-4">
-              <Textarea
-                placeholder="Add a comment..."
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                className="mb-3"
-              />
-              <div className="flex justify-end">
-                <Button 
-                  onClick={handleAddComment}
-                  disabled={!newComment.trim()}
-                >
-                  Submit
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        {showCommentBox && (
+          <div className="mb-8">
+            <h2 className="text-xl font-bold mb-4">Add a Comment</h2>
+            <Card>
+              <CardContent className="p-4">
+                <Textarea
+                  placeholder="What are your thoughts?"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  className="mb-3"
+                />
+                <div className="flex justify-end">
+                  <Button 
+                    onClick={handleAddComment}
+                    disabled={!newComment.trim()}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
         
         <div className="space-y-4">
-          {comments.map((comment) => (
-            <CommentCard key={comment.id} comment={comment} />
-          ))}
+          <h2 className="text-xl font-bold">Comments ({comments.length})</h2>
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <CommentCard 
+                key={comment.id} 
+                comment={comment} 
+                onReply={handleReply}
+              />
+            ))
+          ) : (
+            <p className="text-medium-gray text-center py-6">No comments yet. Be the first to share your thoughts!</p>
+          )}
         </div>
       </div>
     </MainLayout>

@@ -7,25 +7,30 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { HeartIcon, ReplyIcon, MoreHorizontalIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface CommentCardProps {
   comment: Comment;
   level?: number;
+  onReply?: (parentId: string, content: string) => void;
 }
 
-const CommentCard = ({ comment, level = 0 }: CommentCardProps) => {
+const CommentCard = ({ comment, level = 0, onReply }: CommentCardProps) => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [liked, setLiked] = useState(false);
 
   const handleLike = () => {
     setLiked(!liked);
+    toast.success(liked ? "Comment unliked" : "Comment liked");
   };
 
   const handleReply = () => {
-    console.log(`Reply to comment ${comment.id}: ${replyContent}`);
-    setReplyContent("");
-    setShowReplyForm(false);
+    if (onReply && replyContent.trim()) {
+      onReply(comment.id, replyContent);
+      setReplyContent("");
+      setShowReplyForm(false);
+    }
   };
 
   return (
@@ -34,7 +39,7 @@ const CommentCard = ({ comment, level = 0 }: CommentCardProps) => {
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarImage src={comment.author.avatar} alt={comment.author.username} />
+              <AvatarImage src={comment.author.avatar || comment.author.avatarUrl} alt={comment.author.username} />
               <AvatarFallback className="bg-dark-blue text-white">
                 {comment.author.username.slice(0, 2).toUpperCase()}
               </AvatarFallback>
@@ -105,7 +110,12 @@ const CommentCard = ({ comment, level = 0 }: CommentCardProps) => {
       </Card>
       
       {comment.children && comment.children.map((child) => (
-        <CommentCard key={child.id} comment={child} level={level + 1} />
+        <CommentCard 
+          key={child.id} 
+          comment={child} 
+          level={level + 1} 
+          onReply={onReply}
+        />
       ))}
     </div>
   );
