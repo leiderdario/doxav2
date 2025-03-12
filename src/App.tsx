@@ -12,6 +12,8 @@ import Search from "./pages/Search";
 import Topics from "./pages/Topics";
 import CreatePost from "./pages/CreatePost";
 import NotFound from "./pages/NotFound";
+import Trending from "./pages/Trending";
+import Discussions from "./pages/Discussions";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/topics" element={<Topics />} />
           <Route path="/topics/:tag" element={<Topics />} />
           <Route path="/create" element={<CreatePost />} />
+          <Route path="/trending" element={<Trending />} />
+          <Route path="/discussions" element={<Discussions />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
